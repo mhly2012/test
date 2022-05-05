@@ -1,4 +1,3 @@
-let bezier_sine_const = 0.512286623256592433;
 
 function BM_Parser(){
 	this.buffer = '';

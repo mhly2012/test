@@ -2,19 +2,109 @@
 <head>
 	<title>Test</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+	<script src="const.js"></script>
 	<script src="bm_parser.js"></script>
 	<script src="test.js"></script>
-	<script src="{{url_for('static',filename='bm_parser.js')}}"></script>
-	<script src="{{url_for('static',filename='test.js')}}"></script>
+<!--	<script src="{{url_for('static',filename='bm_parser.js')}}"></script>
+	<script src="{{url_for('static',filename='test.js')}}"></script> -->
 	
 </head>
 <body>
 	<h1>Test</h1>
 	<br>
+	<div class="row" onmouseup="edit.c_mouseup($event)" onmouseleave="edit.c_mouseup($event)">
+  <div class="col">
+    <div class="card" style="position:relative;width:100%;height:400px;">
+
+      <div class="card-header" style="position:absolute;top:0px;left:0px;width:100%;">
+        <div>
+          <ng-container>
+                <svg style="touch-action:none" id="svg_" #svg_ [attr.viewBox]="svg_viewBox" xmlns="http://www.w3.org/2000/svg" >
+                        <defs>
+                                <circle fill="blue" [attr.r]="svg_cr">
+                                </circle>
+                                <svg id="follower" viewBox="0 0 210 500" height="3" width="2" pointer-events="none">
+                                        <polygon points="100,10 40,198 190,78 10,78 160,198" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:nonzero;"/>
+                                </svg>
+                        </defs>
+                        <g id="back_layer">
+
+                                <foreignObject style="opacity:0.2;z-index:-1" id="cc" [attr.x]="svg_viewBox_x" [attr.y]="svg_viewBox_y" width=20 height=8>
+                                        <canvas style="z-index:-1" id="canvas" width=20 height=8>
+                                        </canvas>
+                                </foreignObject>
+                                <image *ngFor="let tmp of parser.image_to;" [attr.href]='"../../../assets/"+tmp[2]+".jpeg"' [attr.x]="tmp[0]+parser._xmin" [attr.y]="tmp[1]+parser._ymin" width="3" height="3"/>
+                        </g>
+
+                        <!-- 조금 꺾인 선 배경, 열별로 구간 나눔-->
+                        <g *ngFor="let l of svg_viewBox_varallax_left;let i = index;let len = count">
+                                <svg [attr.x]="svg_viewBox_x+(i*10/len)" [attr.y]="svg_viewBox_y" [attr.height]="4" [attr.viewBox]="svg_viewBox_varallax_left[i]" [attr.width]="10/len">
+                                        <path [attr.transform]='"translate("+svg_cx+" "+svg_cy+")skewX("+((-5*(len-i-1)))+")translate("+(-svg_cx)+" "+(-svg_cy)+")"' [attr.stroke-width]="svg_path_width" stroke="gray" fill="transparent" [attr.d]="svg_line" pointer-events="None"/>
+                                </svg>
+                        </g>
+
+                        <g *ngFor="let r of svg_viewBox_varallax_right;let i = index;let len = count">
+                                <svg [attr.x]="svg_viewBox_x+10+(i*10/len)" [attr.y]="svg_viewBox_y" [attr.height]="4" [attr.width]="10/len" [attr.viewBox]="svg_viewBox_varallax_right[i]">
+                                <path [attr.transform]='"translate("+svg_cx+" "+svg_cy+")skewX("+((5*(i)))+")translate("+(-svg_cx)+" "+(-svg_cy)+")"' [attr.stroke-width]="svg_path_width" stroke="gray" fill="transparent" [attr.d]="svg_line" pointer-events="None"/>
+                                </svg>
+                        </g>
+
+                        <g id="main_layer">
+                        <svg [attr.x]="svg_viewBox_x" [attr.y]="svg_viewBox_y+4" height="4" [attr.viewBox]="svg_viewBox_main">
+			        <path #path_ [attr.stroke-width]="svg_path_width" stroke="black" fill="transparent" [attr.d]="svg_line" onmousemove="c_mousemove($event,svg_)" onmousedown="l_mousedown($event,svg_)" onmouseup="edit.l_mouseup($event,svg_)" ontouchstart="l_mousedown($event,svg_)" ontouchmove="c_touchmove($event)" ontouchend="l_mouseup($event,svg_)" pointer-events="Painted" opacity="0.7"/>
+                                <circle fill="red" #circle [attr.cx]="svg_cx" [attr.cy]="svg_cy" [attr.r]="svg_cr" pointer-events="none" [attr.fill]="svg_ccolor"/>
+                        <!--</g>-->
+                                <g [attr.transform]='"translate("+(svg_cx+rand)+" "+svg_cy+")"' id="follow_g">
+                                        <use *ngFor="let tmp of followers" href="#follower" [attr.x]='"1"' [attr.y]='"1"' [attr.visibility]="tmp[1]"/>
+
+                                </g>
+
+                        </svg>
+                        </g>
+                        <g id="front_layer">
+                                <image *ngFor="let tmp of parser.image_to;" [attr.href]='"../../../assets/"+tmp[2]+".jpeg"' [attr.x]="tmp[0]+parser._xmin" [attr.y]="tmp[1]+parser._ymin" width="3" height="3"/>
+                        </g>
+
+                </svg>
+          </ng-container>
+        </div>
+      </div>
+	<div class="card-body" style="position:absolute;width:100%;top:0px;left:0px;display:flex; flex-direction:column-reverse;height: 200px;overflow-y: auto;white-space:pre-wrap;width:100%;font-size:40px;">
+        <div style="color:black;text-align:center;">
+                {{_rtext}}
+        </div>
+      </div>
+
+
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <blockquote class="blockquote">
+          <p>{{book_name}}.json 파일을 찾을 수 없습니다.</p>
+          <footer class="card-blockquote"><cite title="Source title">404 Not Found</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+   <div class="card-body pr_back" style="position:relative;max-height: 300px;overflow-y: auto">
+        <textarea #ta style="width:100%;height:200px;color:black;" [(ngModel)]="text_code" onclick="changeTextArea(ta)" onchange="changeTextArea(ta)"></textarea>
+      </div>
+      <div class="card-footer">
+        <button style="margin-left: 10px;" [cdkCopyToClipboard]="text_code" type="button" class="btn btn-secondary">
+          <span>클립보드</span>
+        </button>
+        <button style="margin-left: 10px;" onclick="apply_macro()" type="button" class="btn btn-secondary">
+          <span>매크로적용</span>
+        </button>
+        <button style="margin-left: 10px;" onclick="validate_code()" type="button" class="btn btn-secondary">
+          <span>문법검사</span>
+        </button>
+
+      </div>
+  </div>
+</div>
 	<canvas>
 	</canvas>
-	<script>
-		console.log(BM_Parser);		
+	<script src="index.js">
 	</script>
 </body>
 </html>
