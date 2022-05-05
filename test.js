@@ -1,5 +1,5 @@
 
-function test(){
+function btest(){
 	console.log("hello");
 }
-test();
+btest();

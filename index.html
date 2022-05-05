@@ -1,7 +1,12 @@
 <html>
 <head>
 	<title>Test</title>
-	<script src="./test.js"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+	<script src="bm_parser.js"></script>
+	<script src="test.js"></script>
+	<script src="{{url_for('static',filename='bm_parser.js')}}"></script>
+	<script src="{{url_for('static',filename='test.js')}}"></script>
+	
 </head>
 <body>
 	<h1>Test</h1>
@@ -9,7 +14,7 @@
 	<canvas>
 	</canvas>
 	<script>
-		
+		console.log(BM_Parser);		
 	</script>
 </body>
 </html>
